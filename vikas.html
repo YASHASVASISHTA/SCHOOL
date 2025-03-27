@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vikas School Portal</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4fc3f7;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-box h2 {
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.7rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+        }
+        
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 0.8rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0 5px;
+            white-space: nowrap;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.2rem;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            font-size: 1.3rem;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        th, td {
+            padding: 0.6rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        tr:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        /* Forms */
+        .form-row {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+        
+        .form-col {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        /* Alerts */
+        .alert {
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .alert-success {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+        
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+        
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        
+        .gallery-item {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .gallery-item p {
+            padding: 0.4rem;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .login-box {
+                padding: 1.2rem;
+            }
+            
+            .content-section {
+                padding: 1rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .form-col {
+                width: 100%;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .gallery-item img {
+                height: 100px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .user-menu {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .nav-links {
+                gap: 0.3rem;
+            }
+            
+            .nav-links a {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.5rem 0.3rem;
+                font-size: 0.85rem;
+            }
+            
+            .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-box h2 {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 0.5rem;
+            }
+            
+            .gallery-item img {
+                height: 80px;
+            }
+            
+            .gallery-item p {
+                font-size: 0.7rem;
+            }
+            
+            .nav-links a {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.5rem;
+            }
+        }
+        
+        /* Scrollable tables for mobile */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 1rem;
+        }
+        
+        /* Announcement items */
+        .announcement {
+            margin-bottom: 1.5rem;
+        }
+        
+        .announcement h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .announcement-meta {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .announcement p {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 1rem 0;
+        }
+        
+        /* Homework items */
+        .homework-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .homework-item h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .homework-item p {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        
+        /* Event items */
+        .event-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .event-item h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .event-item p {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        
+        /* Form inputs */
+        input[type="date"], input[type="file"] {
+            padding: 0.6rem;
+        }
+        
+        /* Select dropdowns */
+        select {
+            padding: 0.6rem;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="login-page" class="login-container">
+        <div class="login-box">
+            <h2>Vikas School Portal</h2>
+            <div class="form-group">
+                <label for="login-role">Select Portal</label>
+                <select id="login-role">
+                    <option value="admin">Admin Portal</option>
+                    <option value="parent">Parent Portal</option>
+                </select>
+            </div>
+            <button id="login-btn" class="btn btn-block">Enter Portal</button>
+            <div id="login-message" style="margin-top: 1rem; text-align: center; color: var(--primary); font-size: 0.9rem;">
+                Demo: No credentials needed
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="dashboard">
+        <header>
+            <div class="container header-content">
+                <div class="logo">Vikas School Admin</div>
+                <div class="user-menu">
+                    <div class="user-avatar">A</div>
+                    <button id="admin-logout-btn" class="btn">Logout</button>
+                </div>
+            </div>
+        </header>
+        
+        <nav>
+            <div class="container">
+                <ul class="nav-links" id="admin-nav-links">
+                    <li><a href="#" data-section="announcements" class="active">Announcements</a></li>
+                    <li><a href="#" data-section="homework">Homework</a></li>
+                    <li><a href="#" data-section="events">Events</a></li>
+                    <li><a href="#" data-section="grades">Grades</a></li>
+                    <li><a href="#" data-section="attendance">Attendance</a></li>
+                    <li><a href="#" data-section="gallery">Photo Gallery</a></li>
+                    <li><a href="#" data-section="users">User Management</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <!-- Announcements Section -->
+            <div id="admin-announcements-section" class="content-section">
+                <h2 class="section-title">Announcements</h2>
+                <div id="admin-announcements-content">
+                    <!-- Announcements will be loaded here -->
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">Add New Announcement</h3>
+                    <form id="admin-new-announcement-form">
+                        <div class="form-group">
+                            <label for="admin-announcement-title">Title</label>
+                            <input type="text" id="admin-announcement-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-announcement-content">Content</label>
+                            <textarea id="admin-announcement-content" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Post Announcement</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Homework Section -->
+            <div id="admin-homework-section" class="content-section" style="display: none;">
+                <h2 class="section-title">Homework Assignments</h2>
+                <div id="admin-homework-content">
+                    <!-- Homework will be loaded here -->
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">Add Homework Assignment</h3>
+                    <form id="admin-new-homework-form">
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-homework-title">Title</label>
+                                    <input type="text" id="admin-homework-title" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-homework-subject">Subject</label>
+                                    <input type="text" id="admin-homework-subject" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-homework-class">Class</label>
+                                    <select id="admin-homework-class" required>
+                                        <option value="">Select Class</option>
+                                        <option value="1">Class 1</option>
+                                        <option value="2">Class 2</option>
+                                        <option value="3">Class 3</option>
+                                        <option value="4">Class 4</option>
+                                        <option value="5">Class 5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-homework-section">Section</label>
+                                    <select id="admin-homework-section" required>
+                                        <option value="">Select Section</option>
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-homework-due-date">Due Date</label>
+                            <input type="date" id="admin-homework-due-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-homework-description">Description</label>
+                            <textarea id="admin-homework-description" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Assign Homework</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Events Section -->
+            <div id="admin-events-section" class="content-section" style="display: none;">
+                <h2 class="section-title">School Events</h2>
+                <div id="admin-events-content">
+                    <!-- Events will be loaded here -->
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">Add New Event</h3>
+                    <form id="admin-new-event-form">
+                        <div class="form-group">
+                            <label for="admin-event-title">Title</label>
+                            <input type="text" id="admin-event-title" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-event-date">Date</label>
+                                    <input type="date" id="admin-event-date" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-event-end-date">End Date (optional)</label>
+                                    <input type="date" id="admin-event-end-date">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-event-location">Location</label>
+                            <input type="text" id="admin-event-location">
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-event-description">Description</label>
+                            <textarea id="admin-event-description" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Add Event</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Grades Section -->
+            <div id="admin-grades-section" class="content-section" style="display: none;">
+                <h2 class="section-title">Grades Management</h2>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="admin-grade-class">Class</label>
+                            <select id="admin-grade-class">
+                                <option value="">All Classes</option>
+                                <option value="1">Class 1</option>
+                                <option value="2">Class 2</option>
+                                <option value="3">Class 3</option>
+                                <option value="4">Class 4</option>
+                                <option value="5">Class 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="admin-grade-section">Section</label>
+                            <select id="admin-grade-section">
+                                <option value="">All Sections</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="admin-grade-term">Term</label>
+                            <select id="admin-grade-term">
+                                <option value="">All Terms</option>
+                                <option value="1">Term 1</option>
+                                <option value="2">Term 2</option>
+                                <option value="3">Term 3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div id="admin-grades-content">
+                        <!-- Grades will be loaded here -->
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">Add Grade Record</h3>
+                    <form id="admin-new-grade-form">
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-grade-student">Student</label>
+                                    <select id="admin-grade-student" required>
+                                        <option value="">Select Student</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-grade-subject">Subject</label>
+                                    <input type="text" id="admin-grade-subject" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-grade-term-select">Term</label>
+                                    <select id="admin-grade-term-select" required>
+                                        <option value="1">Term 1</option>
+                                        <option value="2">Term 2</option>
+                                        <option value="3">Term 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-grade-score">Score</label>
+                                    <input type="number" id="admin-grade-score" min="0" max="100" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-grade-comments">Comments</label>
+                            <textarea id="admin-grade-comments"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Add Grade</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Attendance Section -->
+            <div id="admin-attendance-section" class="content-section" style="display: none;">
+                <h2 class="section-title">Attendance Tracking</h2>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="admin-attendance-date">Date</label>
+                            <input type="date" id="admin-attendance-date" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="admin-attendance-class">Class</label>
+                            <select id="admin-attendance-class" required>
+                                <option value="">Select Class</option>
+                                <option value="1">Class 1</option>
+                                <option value="2">Class 2</option>
+                                <option value="3">Class 3</option>
+                                <option value="4">Class 4</option>
+                                <option value="5">Class 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="admin-attendance-section">Section</label>
+                            <select id="admin-attendance-section" required>
+                                <option value="">Select Section</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div id="admin-attendance-content">
+                        <!-- Attendance will be loaded here -->
+                    </div>
+                </div>
+                <button id="admin-save-attendance-btn" class="btn" style="margin-top: 1rem;">Save Attendance</button>
+            </div>
+            
+            <!-- Photo Gallery Section -->
+            <div id="admin-gallery-section" class="content-section" style="display: none;">
+                <h2 class="section-title">Photo Gallery</h2>
+                <div id="admin-gallery-content" class="gallery-grid">
+                    <!-- Gallery items will be loaded here -->
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">Upload Photos</h3>
+                    <form id="admin-new-photo-form">
+                        <div class="form-group">
+                            <label for="admin-photo-title">Title</label>
+                            <input type="text" id="admin-photo-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-photo-description">Description</label>
+                            <textarea id="admin-photo-description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-photo-upload">Select Photos</label>
+                            <input type="file" id="admin-photo-upload" multiple accept="image/*">
+                        </div>
+                        <button type="submit" class="btn">Upload Photos</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- User Management Section -->
+            <div id="admin-users-section" class="content-section" style="display: none;">
+                <h2 class="section-title">User Management</h2>
+                <div class="table-responsive">
+                    <div id="admin-users-content">
+                        <!-- Users will be loaded here -->
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.8rem;">Add New User</h3>
+                    <form id="admin-new-user-form">
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-user-username">Username</label>
+                                    <input type="text" id="admin-user-username" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-user-password">Password</label>
+                                    <input type="password" id="admin-user-password" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-user-fullname">Full Name</label>
+                                    <input type="text" id="admin-user-fullname" required>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-user-role">Role</label>
+                                    <select id="admin-user-role" required>
+                                        <option value="admin">Admin</option>
+                                        <option value="teacher">Teacher</option>
+                                        <option value="parent">Parent</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-user-email">Email</label>
+                                    <input type="email" id="admin-user-email">
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="admin-user-phone">Phone</label>
+                                    <input type="tel" id="admin-user-phone">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="admin-parent-student-section" style="display: none;">
+                            <div class="form-group">
+                                <label for="admin-parent-student">Linked Student (for parents)</label>
+                                <select id="admin-parent-student">
+                                    <option value="">None</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">Add User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Parent Dashboard -->
+    <div id="parent-dashboard" class="dashboard">
+        <header>
+            <div class="container header-content">
+                <div class="logo">Vikas School Parent Portal</div>
+                <div class="user-menu">
+                    <div class="user-avatar">P</div>
+                    <button id="parent-logout-btn" class="btn">Logout</button>
+                </div>
+            </div>
+        </header>
+        
+        <nav>
+            <div class="container">
+                <ul class="nav-links" id="parent-nav-links">
+                    <li><a href="#" data-section="announcements" class="active">Announcements</a></li>
+                    <li><a href="#" data-section="homework">Homework</a></li>
+                    <li><a href="#" data-section="events">Events</a></li>
+                    <li><a href="#" data-section="grades">Grades</a></li>
+                    <li><a href="#" data-section="attendance">Attendance</a></li>
+                    <li><a href="#" data-section="gallery">Photo Gallery</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <!-- Announcements Section -->
+            <div id="parent-announcements-section" class="content-section">
+                <h2 class="section-title">Announcements</h2>
+                <div id="parent-announcements-content">
+                    <!-- Announcements will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Homework Section -->
+            <div id="parent-homework-section" class="content-section" style="display: none;">
+                <h2 class="section-title">Homework Assignments</h2>
+                <div id="parent-homework-content">
+                    <!-- Homework will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Events Section -->
+            <div id="parent-events-section" class="content-section" style="display: none;">
+                <h2 class="section-title">School Events</h2>
+                <div id="parent-events-content">
+                    <!-- Events will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Grades Section -->
+            <div id="parent-grades-section" class="content-section" style="display: none;">
+                <h2 class="section-title">Grades</h2>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="parent-grade-term">Term</label>
+                            <select id="parent-grade-term">
+                                <option value="1">Term 1</option>
+                                <option value="2">Term 2</option>
+                                <option value="3">Term 3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div id="parent-grades-content">
+                        <!-- Grades will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Attendance Section -->
+            <div id="parent-attendance-section" class="content-section" style="display: none;">
+                <h2 class="section-title">Attendance</h2>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="parent-attendance-month">Month</label>
+                            <select id="parent-attendance-month">
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <div id="parent-attendance-content">
+                        <!-- Attendance will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Photo Gallery Section -->
+            <div id="parent-gallery-section" class="content-section" style="display: none;">
+                <h2 class="section-title">Photo Gallery</h2>
+                <div id="parent-gallery-content" class="gallery-grid">
+                    <!-- Gallery items will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Structure
+        const schoolData = {
+            announcements: [],
+            homework: [],
+            events: [],
+            grades: [],
+            attendance: [],
+            gallery: [],
+            users: [
+                {
+                    id: 'user-1',
+                    username: 'admin',
+                    password: 'admin123',
+                    role: 'admin',
+                    fullName: 'School Admin',
+                    email: 'admin@vikasschool.edu',
+                    phone: '9876543210',
+                    isActive: true
+                },
+                {
+                    id: 'user-2',
+                    username: 'parent1',
+                    password: 'parent123',
+                    role: 'parent',
+                    fullName: 'Rahul Sharma',
+                    email: 'rahul.sharma@example.com',
+                    phone: '9876543211',
+                    studentId: 'ST001',
+                    isActive: true
+                }
+            ],
+            students: [
+                {
+                    id: 'ST001',
+                    fullName: 'Aarav Sharma',
+                    class: '5',
+                    section: 'A',
+                    dob: '2015-06-15',
+                    gender: 'Male',
+                    address: '123 Main St, Bangalore',
+                    parentUsername: 'parent1'
+                }
+            ],
+            currentUser: null
+        };
+
+        // Initialize Data
+        function initializeData() {
+            const savedData = localStorage.getItem('vikasSchoolData');
+            if (savedData) {
+                Object.assign(schoolData, JSON.parse(savedData));
+            } else {
+                // Create initial dummy data
+                schoolData.announcements = [
+                    {
+                        id: generateId(),
+                        title: "School Reopening",
+                        content: "School will reopen on June 1st with all safety measures in place.",
+                        date: new Date().toISOString(),
+                        isActive: true
+                    }
+                ];
+
+                schoolData.homework = [
+                    {
+                        id: generateId(),
+                        title: "Algebra Problems",
+                        subject: "Math",
+                        class: "5",
+                        section: "A",
+                        dueDate: "2023-06-05",
+                        description: "Complete problems 1-20 on page 45",
+                        assignedDate: new Date().toISOString()
+                    }
+                ];
+
+                schoolData.events = [
+                    {
+                        id: generateId(),
+                        title: "Annual Sports Day",
+                        date: "2023-06-15",
+                        endDate: "",
+                        location: "School Ground",
+                        description: "Annual sports competition between classes",
+                        createdDate: new Date().toISOString()
+                    }
+                ];
+
+                schoolData.grades = [
+                    {
+                        id: generateId(),
+                        studentId: "ST001",
+                        studentName: "Aarav Sharma",
+                        class: "5",
+                        section: "A",
+                        subject: "Math",
+                        term: "1",
+                        score: 85,
+                        comments: "Good performance",
+                        date: new Date().toISOString()
+                    }
+                ];
+
+                schoolData.attendance = [
+                    {
+                        id: generateId(),
+                        studentId: "ST001",
+                        studentName: "Aarav Sharma",
+                        class: "5",
+                        section: "A",
+                        date: "2023-06-01",
+                        status: "present",
+                        remarks: ""
+                    }
+                ];
+
+                schoolData.gallery = [
+                    {
+                        id: generateId(),
+                        title: "Sports Day 2023",
+                        description: "Annual sports day competition",
+                        imageUrl: "https://via.placeholder.com/400x300?text=Sports+Day",
+                        date: new Date().toISOString()
+                    }
+                ];
+
+                saveData();
+            }
+        }
+
+        // Helper Functions
+        function generateId() {
+            return Math.random().toString(36).substr(2, 9);
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        function saveData() {
+            localStorage.setItem('vikasSchoolData', JSON.stringify(schoolData));
+        }
+
+        // DOM Elements
+        const loginPage = document.getElementById('login-page');
+        const adminDashboard = document.getElementById('admin-dashboard');
+        const parentDashboard = document.getElementById('parent-dashboard');
+        const loginBtn = document.getElementById('login-btn');
+        const adminLogoutBtn = document.getElementById('admin-logout-btn');
+        const parentLogoutBtn = document.getElementById('parent-logout-btn');
+        const loginRole = document.getElementById('login-role');
+
+        // Initialize the application
+        function initApp() {
+            initializeData();
+            
+            // Set up event listeners
+            loginBtn.addEventListener('click', handleLogin);
+            adminLogoutBtn.addEventListener('click', handleLogout);
+            parentLogoutBtn.addEventListener('click', handleLogout);
+            
+            // Set up admin form submissions
+            document.getElementById('admin-new-announcement-form').addEventListener('submit', handleNewAnnouncement);
+            document.getElementById('admin-new-homework-form').addEventListener('submit', handleNewHomework);
+            document.getElementById('admin-new-event-form').addEventListener('submit', handleNewEvent);
+            document.getElementById('admin-new-grade-form').addEventListener('submit', handleNewGrade);
+            document.getElementById('admin-save-attendance-btn').addEventListener('click', handleSaveAttendance);
+            document.getElementById('admin-new-photo-form').addEventListener('submit', handleNewPhoto);
+            document.getElementById('admin-new-user-form').addEventListener('submit', handleNewUser);
+            
+            // Set up admin navigation
+            const adminNavLinks = document.querySelectorAll('#admin-nav-links a');
+            adminNavLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showAdminSection(link.dataset.section);
+                });
+            });
+            
+            // Set up parent navigation
+            const parentNavLinks = document.querySelectorAll('#parent-nav-links a');
+            parentNavLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showParentSection(link.dataset.section);
+                });
+            });
+            
+            // Set up dynamic form changes
+            document.getElementById('admin-user-role').addEventListener('change', function() {
+                const parentSection = document.getElementById('admin-parent-student-section');
+                parentSection.style.display = this.value === 'parent' ? 'block' : 'none';
+            });
+            
+            document.getElementById('admin-attendance-class').addEventListener('change', loadStudentsForAttendance);
+            document.getElementById('admin-grade-class').addEventListener('change', loadStudentsForGrades);
+            document.getElementById('parent-grade-term').addEventListener('change', loadParentGrades);
+            document.getElementById('parent-attendance-month').addEventListener('change', loadParentAttendance);
+        }
+
+        // Login Handler
+        function handleLogin() {
+            const role = loginRole.value;
+            
+            if (role === 'admin') {
+                schoolData.currentUser = schoolData.users.find(u => u.role === 'admin');
+                showAdminDashboard();
+            } else if (role === 'parent') {
+                schoolData.currentUser = schoolData.users.find(u => u.role === 'parent');
+                showParentDashboard();
+            }
+        }
+
+        // Logout Handler
+        function handleLogout() {
+            schoolData.currentUser = null;
+            showLoginPage();
+        }
+
+        // Show Login Page
+        function showLoginPage() {
+            loginPage.style.display = 'flex';
+            adminDashboard.style.display = 'none';
+            parentDashboard.style.display = 'none';
+        }
+
+        // Show Admin Dashboard
+        function showAdminDashboard() {
+            loginPage.style.display = 'none';
+            adminDashboard.style.display = 'block';
+            parentDashboard.style.display = 'none';
+            
+            // Set user avatar
+            document.querySelector('#admin-dashboard .user-avatar').textContent = 
+                schoolData.currentUser.fullName.charAt(0).toUpperCase();
+            
+            // Load initial section
+            showAdminSection('announcements');
+        }
+
+        // Show Parent Dashboard
+        function showParentDashboard() {
+            loginPage.style.display = 'none';
+            adminDashboard.style.display = 'none';
+            parentDashboard.style.display = 'block';
+            
+            // Set user avatar
+            document.querySelector('#parent-dashboard .user-avatar').textContent = 
+                schoolData.currentUser.fullName.charAt(0).toUpperCase();
+            
+            // Load initial section
+            showParentSection('announcements');
+        }
+
+        // Show Admin Section
+        function showAdminSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('#admin-dashboard .content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show the selected section
+            const section = document.getElementById(`admin-${sectionId}-section`);
+            if (section) {
+                section.style.display = 'block';
+            }
+            
+            // Update active nav link
+            document.querySelectorAll('#admin-nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.section === sectionId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Load section data
+            switch(sectionId) {
+                case 'announcements':
+                    loadAdminAnnouncements();
+                    break;
+                case 'homework':
+                    loadAdminHomework();
+                    break;
+                case 'events':
+                    loadAdminEvents();
+                    break;
+                case 'grades':
+                    loadAdminGrades();
+                    break;
+                case 'attendance':
+                    loadAdminAttendance();
+                    break;
+                case 'gallery':
+                    loadAdminGallery();
+                    break;
+                case 'users':
+                    loadAdminUsers();
+                    break;
+            }
+        }
+
+        // Show Parent Section
+        function showParentSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('#parent-dashboard .content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show the selected section
+            const section = document.getElementById(`parent-${sectionId}-section`);
+            if (section) {
+                section.style.display = 'block';
+            }
+            
+            // Update active nav link
+            document.querySelectorAll('#parent-nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.section === sectionId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Load section data
+            switch(sectionId) {
+                case 'announcements':
+                    loadParentAnnouncements();
+                    break;
+                case 'homework':
+                    loadParentHomework();
+                    break;
+                case 'events':
+                    loadParentEvents();
+                    break;
+                case 'grades':
+                    loadParentGrades();
+                    break;
+                case 'attendance':
+                    loadParentAttendance();
+                    break;
+                case 'gallery':
+                    loadParentGallery();
+                    break;
+            }
+        }
+
+        // ======================
+        // ADMIN DATA OPERATIONS
+        // ======================
+
+        // Load Admin Announcements
+        function loadAdminAnnouncements() {
+            const container = document.getElementById('admin-announcements-content');
+            container.innerHTML = '';
+            
+            if (schoolData.announcements.length === 0) {
+                container.innerHTML = '<p>No announcements found.</p>';
+                return;
+            }
+            
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+            
+            const tbody = table.querySelector('tbody');
+            
+            schoolData.announcements.forEach(announcement => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(announcement.date)}</td>
+                    <td>${announcement.title}</td>
+                    <td>${announcement.content.substring(0, 50)}...</td>
+                    <td>${announcement.isActive ? 'Active' : 'Inactive'}</td>
+                    <td>
+                        <button class="btn" data-id="${announcement.id}" data-action="edit">Edit</button>
+                        <button class="btn btn-danger" data-id="${announcement.id}" data-action="delete">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            container.appendChild(table);
+            
+            // Add event listeners to buttons
+            table.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const action = this.dataset.action;
+                    
+                    if (action === 'edit') {
+                        editAnnouncement(id);
+                    } else if (action === 'delete') {
+                        deleteAnnouncement(id);
+                    }
+                });
+            });
+        }
+
+        // Handle New Announcement
+        function handleNewAnnouncement(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('admin-announcement-title').value;
+            const content = document.getElementById('admin-announcement-content').value;
+            
+            const newAnnouncement = {
+                id: generateId(),
+                title,
+                content,
+                date: new Date().toISOString(),
+                isActive: true
+            };
+            
+            schoolData.announcements.unshift(newAnnouncement);
+            saveData();
+            
+            // Clear form
+            e.target.reset();
+            
+            // Reload announcements
+            loadAdminAnnouncements();
+            
+            // Show success message
+            alert('Announcement posted successfully!');
+        }
+
+        // Edit Announcement
+        function editAnnouncement(id) {
+            const announcement = schoolData.announcements.find(a => a.id === id);
+            if (!announcement) return;
+            
+            document.getElementById('admin-announcement-title').value = announcement.title;
+            document.getElementById('admin-announcement-content').value = announcement.content;
+            
+            // Scroll to form
+            document.getElementById('admin-new-announcement-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Delete Announcement
+        function deleteAnnouncement(id) {
+            if (confirm('Are you sure you want to delete this announcement?')) {
+                schoolData.announcements = schoolData.announcements.filter(a => a.id !== id);
+                saveData();
+                loadAdminAnnouncements();
+            }
+        }
+
+        // Load Admin Homework
+        function loadAdminHomework() {
+            const container = document.getElementById('admin-homework-content');
+            container.innerHTML = '';
+            
+            if (schoolData.homework.length === 0) {
+                container.innerHTML = '<p>No homework assignments found.</p>';
+                return;
+            }
+            
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Assigned</th>
+                        <th>Due Date</th>
+                        <th>Class</th>
+                        <th>Subject</th>
+                        <th>Title</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+            
+            const tbody = table.querySelector('tbody');
+            
+            schoolData.homework.forEach(hw => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(hw.assignedDate)}</td>
+                    <td>${formatDate(hw.dueDate)}</td>
+                    <td>${hw.class}${hw.section}</td>
+                    <td>${hw.subject}</td>
+                    <td>${hw.title}</td>
+                    <td>
+                        <button class="btn" data-id="${hw.id}" data-action="edit">Edit</button>
+                        <button class="btn btn-danger" data-id="${hw.id}" data-action="delete">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            container.appendChild(table);
+            
+            // Add event listeners to buttons
+            table.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const action = this.dataset.action;
+                    
+                    if (action === 'edit') {
+                        editHomework(id);
+                    } else if (action === 'delete') {
+                        deleteHomework(id);
+                    }
+                });
+            });
+        }
+
+        // Handle New Homework
+        function handleNewHomework(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('admin-homework-title').value;
+            const subject = document.getElementById('admin-homework-subject').value;
+            const classVal = document.getElementById('admin-homework-class').value;
+            const section = document.getElementById('admin-homework-section').value;
+            const dueDate = document.getElementById('admin-homework-due-date').value;
+            const description = document.getElementById('admin-homework-description').value;
+            
+            const newHomework = {
+                id: generateId(),
+                title,
+                subject,
+                class: classVal,
+                section,
+                dueDate,
+                description,
+                assignedDate: new Date().toISOString()
+            };
+            
+            schoolData.homework.unshift(newHomework);
+            saveData();
+            
+            // Clear form
+            e.target.reset();
+            
+            // Reload homework
+            loadAdminHomework();
+            
+            // Show success message
+            alert('Homework assigned successfully!');
+        }
+
+        // Edit Homework
+        function editHomework(id) {
+            const hw = schoolData.homework.find(h => h.id === id);
+            if (!hw) return;
+            
+            document.getElementById('admin-homework-title').value = hw.title;
+            document.getElementById('admin-homework-subject').value = hw.subject;
+            document.getElementById('admin-homework-class').value = hw.class;
+            document.getElementById('admin-homework-section').value = hw.section;
+            document.getElementById('admin-homework-due-date').value = hw.dueDate;
+            document.getElementById('admin-homework-description').value = hw.description;
+            
+            // Scroll to form
+            document.getElementById('admin-new-homework-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Delete Homework
+        function deleteHomework(id) {
+            if (confirm('Are you sure you want to delete this homework assignment?')) {
+                schoolData.homework = schoolData.homework.filter(h => h.id !== id);
+                saveData();
+                loadAdminHomework();
+            }
+        }
+
+        // Load Admin Events
+        function loadAdminEvents() {
+            const container = document.getElementById('admin-events-content');
+            container.innerHTML = '';
+            
+            if (schoolData.events.length === 0) {
+                container.innerHTML = '<p>No events found.</p>';
+                return;
+            }
+            
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Event</th>
+                        <th>Location</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+            
+            const tbody = table.querySelector('tbody');
+            
+            schoolData.events.forEach(event => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(event.date)}</td>
+                    <td>${event.title}</td>
+                    <td>${event.location || '-'}</td>
+                    <td>${event.description.substring(0, 50)}...</td>
+                    <td>
+                        <button class="btn" data-id="${event.id}" data-action="edit">Edit</button>
+                        <button class="btn btn-danger" data-id="${event.id}" data-action="delete">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            container.appendChild(table);
+            
+            // Add event listeners to buttons
+            table.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const action = this.dataset.action;
+                    
+                    if (action === 'edit') {
+                        editEvent(id);
+                    } else if (action === 'delete') {
+                        deleteEvent(id);
+                    }
+                });
+            });
+        }
+
+        // Handle New Event
+        function handleNewEvent(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('admin-event-title').value;
+            const date = document.getElementById('admin-event-date').value;
+            const endDate = document.getElementById('admin-event-end-date').value;
+            const location = document.getElementById('admin-event-location').value;
+            const description = document.getElementById('admin-event-description').value;
+            
+            const newEvent = {
+                id: generateId(),
+                title,
+                date,
+                endDate,
+                location,
+                description,
+                createdDate: new Date().toISOString()
+            };
+            
+            schoolData.events.unshift(newEvent);
+            saveData();
+            
+            // Clear form
+            e.target.reset();
+            
+            // Reload events
+            loadAdminEvents();
+            
+            // Show success message
+            alert('Event added successfully!');
+        }
+
+        // Edit Event
+        function editEvent(id) {
+            const event = schoolData.events.find(e => e.id === id);
+            if (!event) return;
+            
+            document.getElementById('admin-event-title').value = event.title;
+            document.getElementById('admin-event-date').value = event.date;
+            document.getElementById('admin-event-end-date').value = event.endDate || '';
+            document.getElementById('admin-event-location').value = event.location || '';
+            document.getElementById('admin-event-description').value = event.description;
+            
+            // Scroll to form
+            document.getElementById('admin-new-event-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Delete Event
+        function deleteEvent(id) {
+            if (confirm('Are you sure you want to delete this event?')) {
+                schoolData.events = schoolData.events.filter(e => e.id !== id);
+                saveData();
+                loadAdminEvents();
+            }
+        }
+
+        // Load Admin Grades
+        function loadAdminGrades() {
+            const container = document.getElementById('admin-grades-content');
+            container.innerHTML = '';
+            
+            const classFilter = document.getElementById('admin-grade-class').value;
+            const sectionFilter = document.getElementById('admin-grade-section').value;
+            const termFilter = document.getElementById('admin-grade-term').value;
+            
+            let filteredGrades = [...schoolData.grades];
+            
+            if (classFilter) {
+                filteredGrades = filteredGrades.filter(g => g.class === classFilter);
+            }
+            
+            if (sectionFilter) {
+                filteredGrades = filteredGrades.filter(g => g.section === sectionFilter);
+            }
+            
+            if (termFilter) {
+                filteredGrades = filteredGrades.filter(g => g.term === termFilter);
+            }
+            
+            if (filteredGrades.length === 0) {
+                container.innerHTML = '<p>No grades found matching the selected filters.</p>';
+                return;
+            }
+            
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Class</th>
+                        <th>Subject</th>
+                        <th>Term</th>
+                        <th>Score</th>
+                        <th>Comments</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+            
+            const tbody = table.querySelector('tbody');
+            
+            filteredGrades.forEach(grade => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${grade.studentName}</td>
+                    <td>${grade.class}${grade.section}</td>
+                    <td>${grade.subject}</td>
+                    <td>${grade.term}</td>
+                    <td>${grade.score}</td>
+                    <td>${grade.comments || '-'}</td>
+                    <td>
+                        <button class="btn" data-id="${grade.id}" data-action="edit">Edit</button>
+                        <button class="btn btn-danger" data-id="${grade.id}" data-action="delete">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            container.appendChild(table);
+            
+            // Add event listeners to buttons
+            table.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const action = this.dataset.action;
+                    
+                    if (action === 'edit') {
+                        editGrade(id);
+                    } else if (action === 'delete') {
+                        deleteGrade(id);
+                    }
+                });
+            });
+        }
+
+        // Load Students for Grades
+        function loadStudentsForGrades() {
+            const classVal = document.getElementById('admin-grade-class').value;
+            const sectionVal = document.getElementById('admin-grade-section').value;
+            
+            const studentSelect = document.getElementById('admin-grade-student');
+            studentSelect.innerHTML = '<option value="">Select Student</option>';
+            
+            if (!classVal || !sectionVal) return;
+            
+            const filteredStudents = schoolData.students.filter(s => 
+                s.class === classVal && s.section === sectionVal
+            );
+            
+            filteredStudents.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = `${student.fullName} (${student.class}${student.section})`;
+                studentSelect.appendChild(option);
+            });
+        }
+
+        // Handle New Grade
+        function handleNewGrade(e) {
+            e.preventDefault();
+            
+            const studentId = document.getElementById('admin-grade-student').value;
+            const subject = document.getElementById('admin-grade-subject').value;
+            const term = document.getElementById('admin-grade-term-select').value;
+            const score = document.getElementById('admin-grade-score').value;
+            const comments = document.getElementById('admin-grade-comments').value;
+            
+            const student = schoolData.students.find(s => s.id === studentId);
+            if (!student) {
+                alert('Please select a valid student');
+                return;
+            }
+            
+            const newGrade = {
+                id: generateId(),
+                studentId,
+                studentName: student.fullName,
+                class: student.class,
+                section: student.section,
+                subject,
+                term,
+                score: parseInt(score),
+                comments,
+                date: new Date().toISOString()
+            };
+            
+            schoolData.grades.unshift(newGrade);
+            saveData();
+            
+            // Clear form
+            e.target.reset();
+            
+            // Reload grades
+            loadAdminGrades();
+            
+            // Show success message
+            alert('Grade added successfully!');
+        }
+
+        // Edit Grade
+        function editGrade(id) {
+            const grade = schoolData.grades.find(g => g.id === id);
+            if (!grade) return;
+            
+            // Find the student
+            const student = schoolData.students.find(s => s.id === grade.studentId);
+            if (student) {
+                document.getElementById('admin-grade-class').value = student.class;
+                document.getElementById('admin-grade-section').value = student.section;
+                loadStudentsForGrades();
+                document.getElementById('admin-grade-student').value = student.id;
+            }
+            
+            document.getElementById('admin-grade-subject').value = grade.subject;
+            document.getElementById('admin-grade-term-select').value = grade.term;
+            document.getElementById('admin-grade-score').value = grade.score;
+            document.getElementById('admin-grade-comments').value = grade.comments || '';
+            
+            // Scroll to form
+            document.getElementById('admin-new-grade-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Delete Grade
+        function deleteGrade(id) {
+            if (confirm('Are you sure you want to delete this grade record?')) {
+                schoolData.grades = schoolData.grades.filter(g => g.id !== id);
+                saveData();
+                loadAdminGrades();
+            }
+        }
+
+        // Load Admin Attendance
+        function loadAdminAttendance() {
+            const container = document.getElementById('admin-attendance-content');
+            container.innerHTML = '';
+            
+            const date = document.getElementById('admin-attendance-date').value;
+            const classVal = document.getElementById('admin-attendance-class').value;
+            const sectionVal = document.getElementById('admin-attendance-section').value;
+            
+            if (!date || !classVal || !sectionVal) {
+                container.innerHTML = '<p>Please select date, class and section to view attendance.</p>';
+                return;
+            }
+            
+            // Get students for selected class and section
+            const students = schoolData.students.filter(s => 
+                s.class === classVal && s.section === sectionVal
+            );
+            
+            if (students.length === 0) {
+                container.innerHTML = '<p>No students found for selected class and section.</p>';
+                return;
+            }
+            
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+            
+            const tbody = table.querySelector('tbody');
+            
+            students.forEach(student => {
+                // Check if attendance already exists for this date
+                const existingAttendance = schoolData.attendance.find(a => 
+                    a.studentId === student.id && a.date === date
+                );
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.id}</td>
+                    <td>${student.fullName}</td>
+                    <td>
+                        <select class="attendance-status" data-student-id="${student.id}">
+                            <option value="present" ${existingAttendance?.status === 'present' ? 'selected' : ''}>Present</option>
+                            <option value="absent" ${existingAttendance?.status === 'absent' ? 'selected' : ''}>Absent</option>
+                            <option value="late" ${existingAttendance?.status === 'late' ? 'selected' : ''}>Late</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" class="attendance-remarks" data-student-id="${student.id}" 
+                            value="${existingAttendance?.remarks || ''}">
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            container.appendChild(table);
+        }
+
+        // Load Students for Attendance
+        function loadStudentsForAttendance() {
+            const classVal = document.getElementById('admin-attendance-class').value;
+            const sectionVal = document.getElementById('admin-attendance-section').value;
+            
+            if (classVal && sectionVal) {
+                loadAdminAttendance();
+            }
+        }
+
+        // Handle Save Attendance
+        function handleSaveAttendance() {
+            const date = document.getElementById('admin-attendance-date').value;
+            const classVal = document.getElementById('admin-attendance-class').value;
+            const sectionVal = document.getElementById('admin-attendance-section').value;
+            
+            if (!date || !classVal || !sectionVal) {
+                alert('Please select date, class and section first');
+                return;
+            }
+            
+            // Get all attendance rows
+            const statusSelects = document.querySelectorAll('.attendance-status');
+            const remarksInputs = document.querySelectorAll('.attendance-remarks');
+            
+            statusSelects.forEach((select, index) => {
+                const studentId = select.dataset.studentId;
+                const status = select.value;
+                const remarks = remarksInputs[index].value;
+                
+                // Find existing attendance record
+                const existingIndex = schoolData.attendance.findIndex(a => 
+                    a.studentId === studentId && a.date === date
+                );
+                
+                if (existingIndex >= 0) {
+                    // Update existing record
+                    schoolData.attendance[existingIndex].status = status;
+                    schoolData.attendance[existingIndex].remarks = remarks;
+                } else {
+                    // Add new record
+                    const student = schoolData.students.find(s => s.id === studentId);
+                    if (student) {
+                        schoolData.attendance.push({
+                            id: generateId(),
+                            studentId,
+                            studentName: student.fullName,
+                            class: student.class,
+                            section: student.section,
+                            date,
+                            status,
+                            remarks
+                        });
+                    }
+                }
+            });
+            
+            saveData();
+            alert('Attendance saved successfully!');
+        }
+
+        // Load Admin Gallery
+        function loadAdminGallery() {
+            const container = document.getElementById('admin-gallery-content');
+            container.innerHTML = '';
+            
+            if (schoolData.gallery.length === 0) {
+                container.innerHTML = '<p>No photos found in gallery.</p>';
+                return;
+            }
+            
+            const galleryGrid = document.createElement('div');
+            galleryGrid.className = 'gallery-grid';
+            
+            schoolData.gallery.forEach(photo => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.innerHTML = `
+                    <img src="${photo.imageUrl}" alt="${photo.title}">
+                    <p>${photo.title}</p>
+                    <button class="btn btn-danger btn-block" data-id="${photo.id}">Delete</button>
+                `;
+                galleryGrid.appendChild(galleryItem);
+                
+                // Add event listener to delete button
+                galleryItem.querySelector('button').addEventListener('click', function() {
+                    deletePhoto(photo.id);
+                });
+            });
+            
+            container.appendChild(galleryGrid);
+        }
+
+        // Handle New Photo
+        function handleNewPhoto(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('admin-photo-title').value;
+            const description = document.getElementById('admin-photo-description').value;
+            const fileInput = document.getElementById('admin-photo-upload');
+            
+            if (!title) {
+                alert('Please enter a title for the photo');
+                return;
+            }
+            
+            if (fileInput.files.length === 0) {
+                alert('Please select at least one photo to upload');
+                return;
+            }
+            
+            // In a real app, you would upload the file to a server
+            // For this demo, we'll just use a placeholder
+            Array.from(fileInput.files).forEach(file => {
+                const newPhoto = {
+                    id: generateId(),
+                    title,
+                    description,
+                    imageUrl: URL.createObjectURL(file),
+                    date: new Date().toISOString()
+                };
+                
+                schoolData.gallery.unshift(newPhoto);
+            });
+            
+            saveData();
+            
+            // Clear form
+            e.target.reset();
+            
+            // Reload gallery
+            loadAdminGallery();
+            
+            // Show success message
+            alert('Photos uploaded successfully!');
+        }
+
+        // Delete Photo
+        function deletePhoto(id) {
+            if (confirm('Are you sure you want to delete this photo?')) {
+                schoolData.gallery = schoolData.gallery.filter(p => p.id !== id);
+                saveData();
+                loadAdminGallery();
+            }
+        }
+
+        // Load Admin Users
+        function loadAdminUsers() {
+            const container = document.getElementById('admin-users-content');
+            container.innerHTML = '';
+            
+            if (schoolData.users.length === 0) {
+                container.innerHTML = '<p>No users found.</p>';
+                return;
+            }
+            
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Full Name</th>
+                        <th>Role</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+            
+            const tbody = table.querySelector('tbody');
+            
+            schoolData.users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.fullName}</td>
+                    <td>${user.role}</td>
+                    <td>${user.email || '-'}</td>
+                    <td>${user.isActive ? 'Active' : 'Inactive'}</td>
+                    <td>
+                        <button class="btn" data-id="${user.id}" data-action="edit">Edit</button>
+                        <button class="btn btn-danger" data-id="${user.id}" data-action="delete">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            container.appendChild(table);
+            
+            // Add event listeners to buttons
+            table.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const action = this.dataset.action;
+                    
+                    if (action === 'edit') {
+                        editUser(id);
+                    } else if (action === 'delete') {
+                        deleteUser(id);
+                    }
+                });
+            });
+            
+            // Load students for parent dropdown
+            const parentStudentSelect = document.getElementById('admin-parent-student');
+            parentStudentSelect.innerHTML = '<option value="">None</option>';
+            
+            schoolData.students.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = `${student.fullName} (${student.class}${student.section})`;
+                parentStudentSelect.appendChild(option);
+            });
+        }
+
+        // Handle New User
+        function handleNewUser(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('admin-user-username').value;
+            const password = document.getElementById('admin-user-password').value;
+            const fullName = document.getElementById('admin-user-fullname').value;
+            const role = document.getElementById('admin-user-role').value;
+            const email = document.getElementById('admin-user-email').value;
+            const phone = document.getElementById('admin-user-phone').value;
+            const studentId = role === 'parent' ? document.getElementById('admin-parent-student').value : '';
+            
+            // Check if username already exists
+            if (schoolData.users.some(u => u.username === username)) {
+                alert('Username already exists');
+                return;
+            }
+            
+            const newUser = {
+                id: generateId(),
+                username,
+                password,
+                role,
+                fullName,
+                email,
+                phone,
+                isActive: true
+            };
+            
+            if (role === 'parent') {
+                newUser.studentId = studentId;
+            }
+            
+            schoolData.users.push(newUser);
+            saveData();
+            
+            // Clear form
+            e.target.reset();
+            
+            // Reload users
+            loadAdminUsers();
+            
+            // Show success message
+            alert('User added successfully!');
+        }
+
+        // Edit User
+        function editUser(id) {
+            const user = schoolData.users.find(u => u.id === id);
+            if (!user) return;
+            
+            document.getElementById('admin-user-username').value = user.username;
+            document.getElementById('admin-user-password').value = user.password;
+            document.getElementById('admin-user-fullname').value = user.fullName;
+            document.getElementById('admin-user-role').value = user.role;
+            document.getElementById('admin-user-email').value = user.email || '';
+            document.getElementById('admin-user-phone').value = user.phone || '';
+            
+            if (user.role === 'parent') {
+                document.getElementById('admin-parent-student-section').style.display = 'block';
+                document.getElementById('admin-parent-student').value = user.studentId || '';
+            } else {
+                document.getElementById('admin-parent-student-section').style.display = 'none';
+            }
+            
+            // Scroll to form
+            document.getElementById('admin-new-user-form').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Delete User
+        function deleteUser(id) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                schoolData.users = schoolData.users.filter(u => u.id !== id);
+                saveData();
+                loadAdminUsers();
+            }
+        }
+
+        // ======================
+        // PARENT DATA OPERATIONS
+        // ======================
+
+        // Load Parent Announcements
+        function loadParentAnnouncements() {
+            const container = document.getElementById('parent-announcements-content');
+            container.innerHTML = '';
+            
+            if (schoolData.announcements.length === 0) {
+                container.innerHTML = '<p>No announcements found.</p>';
+                return;
+            }
+            
+            schoolData.announcements.forEach(announcement => {
+                const announcementDiv = document.createElement('div');
+                announcementDiv.className = 'announcement';
+                announcementDiv.innerHTML = `
+                    <h3>${announcement.title}</h3>
+                    <p class="announcement-meta">Posted on ${formatDate(announcement.date)}</p>
+                    <p>${announcement.content}</p>
+                    <hr>
+                `;
+                container.appendChild(announcementDiv);
+            });
+        }
+
+        // Load Parent Homework
+        function loadParentHomework() {
+            const container = document.getElementById('parent-homework-content');
+            container.innerHTML = '';
+            
+            const parent = schoolData.currentUser;
+            if (!parent || !parent.studentId) {
+                container.innerHTML = '<p>No student linked to your account.</p>';
+                return;
+            }
+            
+            const student = schoolData.students.find(s => s.id === parent.studentId);
+            if (!student) {
+                container.innerHTML = '<p>Student information not found.</p>';
+                return;
+            }
+            
+            const studentHomework = schoolData.homework.filter(hw => 
+                hw.class === student.class && hw.section === student.section
+            );
+            
+            if (studentHomework.length === 0) {
+                container.innerHTML = '<p>No homework assignments found.</p>';
+                return;
+            }
+            
+            studentHomework.forEach(hw => {
+                const hwDiv = document.createElement('div');
+                hwDiv.className = 'homework-item';
+                hwDiv.innerHTML = `
+                    <h3>${hw.title} (${hw.subject})</h3>
+                    <p><strong>Due:</strong> ${formatDate(hw.dueDate)}</p>
+                    <p>${hw.description}</p>
+                    <hr>
+                `;
+                container.appendChild(hwDiv);
+            });
+        }
+
+        // Load Parent Events
+        function loadParentEvents() {
+            const container = document.getElementById('parent-events-content');
+            container.innerHTML = '';
+            
+            if (schoolData.events.length === 0) {
+                container.innerHTML = '<p>No events found.</p>';
+                return;
+            }
+            
+            schoolData.events.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'event-item';
+                eventDiv.innerHTML = `
+                    <h3>${event.title}</h3>
+                    <p><strong>Date:</strong> ${formatDate(event.date)}</p>
+                    ${event.location ? `<p><strong>Location:</strong> ${event.location}</p>` : ''}
+                    <p>${event.description}</p>
+                    <hr>
+                `;
+                container.appendChild(eventDiv);
+            });
+        }
+
+        // Load Parent Grades
+        function loadParentGrades() {
+            const container = document.getElementById('parent-grades-content');
+            container.innerHTML = '';
+            
+            const parent = schoolData.currentUser;
+            if (!parent || !parent.studentId) {
+                container.innerHTML = '<p>No student linked to your account.</p>';
+                return;
+            }
+            
+            const term = document.getElementById('parent-grade-term').value;
+            const studentGrades = schoolData.grades.filter(g => 
+                g.studentId === parent.studentId && (term ? g.term === term : true)
+            );
+            
+            if (studentGrades.length === 0) {
+                container.innerHTML = '<p>No grades found for the selected term.</p>';
+                return;
+            }
+            
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Term</th>
+                        <th>Score</th>
+                        <th>Comments</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+            
+            const tbody = table.querySelector('tbody');
+            
+            studentGrades.forEach(grade => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${grade.subject}</td>
+                    <td>${grade.term}</td>
+                    <td>${grade.score}</td>
+                    <td>${grade.comments || '-'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            container.appendChild(table);
+        }
+
+        // Load Parent Attendance
+        function loadParentAttendance() {
+            const container = document.getElementById('parent-attendance-content');
+            container.innerHTML = '';
+            
+            const parent = schoolData.currentUser;
+            if (!parent || !parent.studentId) {
+                container.innerHTML = '<p>No student linked to your account.</p>';
+                return;
+            }
+            
+            const month = document.getElementById('parent-attendance-month').value;
+            const year = new Date().getFullYear(); // Current year
+            
+            const studentAttendance = schoolData.attendance.filter(a => {
+                if (a.studentId !== parent.studentId) return false;
+                
+                const date = new Date(a.date);
+                return date.getMonth() + 1 === parseInt(month) && date.getFullYear() === year;
+            });
+            
+            if (studentAttendance.length === 0) {
+                container.innerHTML = '<p>No attendance records found for the selected month.</p>';
+                return;
+            }
+            
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+            
+            const tbody = table.querySelector('tbody');
+            
+            studentAttendance.forEach(att => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formatDate(att.date)}</td>
+                    <td>${att.status.charAt(0).toUpperCase() + att.status.slice(1)}</td>
+                    <td>${att.remarks || '-'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            container.appendChild(table);
+        }
+
+        // Load Parent Gallery
+        function loadParentGallery() {
+            const container = document.getElementById('parent-gallery-content');
+            container.innerHTML = '';
+            
+            if (schoolData.gallery.length === 0) {
+                container.innerHTML = '<p>No photos found in gallery.</p>';
+                return;
+            }
+            
+            const galleryGrid = document.createElement('div');
+            galleryGrid.className = 'gallery-grid';
+            
+            schoolData.gallery.forEach(photo => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.innerHTML = `
+                    <img src="${photo.imageUrl}" alt="${photo.title}">
+                    <p>${photo.title}</p>
+                `;
+                galleryGrid.appendChild(galleryItem);
+            });
+            
+            container.appendChild(galleryGrid);
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
